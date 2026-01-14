@@ -1,0 +1,20 @@
+{
+  "name": "removebg",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "download-models": "node scripts/download-models.js",
+    "prebuild": "node scripts/download-models.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@imgly/background-removal": "^1.4.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-static-copy": "^1.0.0"
+  }
+}
