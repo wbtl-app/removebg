@@ -128,10 +128,19 @@ function showResult(imageData) {
   originalImage.src = imageData.original;
   resultImage.src = imageData.result;
 
+  // Update original image width once result image loads to match container
+  resultImage.onload = () => {
+    updateOriginalImageWidth();
+  };
+
   // Reset slider position
   setSliderPosition(50);
 
   resultContainer.classList.add('active');
+}
+
+function updateOriginalImageWidth() {
+  originalImage.style.width = comparisonContainer.offsetWidth + 'px';
 }
 
 function showError(message) {
@@ -337,5 +346,12 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key === 'n' || e.key === 'N') {
       newImageBtn.click();
     }
+  }
+});
+
+// Handle window resize to keep original image width correct
+window.addEventListener('resize', () => {
+  if (resultContainer.classList.contains('active')) {
+    updateOriginalImageWidth();
   }
 });
