@@ -128,19 +128,10 @@ function showResult(imageData) {
   originalImage.src = imageData.original;
   resultImage.src = imageData.result;
 
-  // Update original image width once result image loads to match container
-  resultImage.onload = () => {
-    updateOriginalImageWidth();
-  };
-
   // Reset slider position
   setSliderPosition(50);
 
   resultContainer.classList.add('active');
-}
-
-function updateOriginalImageWidth() {
-  originalImage.style.width = comparisonContainer.offsetWidth + 'px';
 }
 
 function showError(message) {
@@ -162,7 +153,8 @@ let isDragging = false;
 function setSliderPosition(percentage) {
   const clampedPercentage = Math.max(0, Math.min(100, percentage));
   sliderLine.style.left = clampedPercentage + '%';
-  imageBefore.style.width = clampedPercentage + '%';
+  // Use clip-path to reveal/hide the original image without resizing it
+  imageBefore.style.clipPath = `inset(0 ${100 - clampedPercentage}% 0 0)`;
 }
 
 function handleSliderMove(clientX) {
@@ -349,9 +341,3 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Handle window resize to keep original image width correct
-window.addEventListener('resize', () => {
-  if (resultContainer.classList.contains('active')) {
-    updateOriginalImageWidth();
-  }
-});
